@@ -1,0 +1,151 @@
+<!doctype html><html><head><title>Openstack中的存储</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="../css/mobile.css" rel="stylesheet" />
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/mobile.js"></script>
+<script type="text/javascript" src="../js/lightbox.js"></script>
+<link rel="stylesheet" href="../css/lightbox.css" type="text/css">
+<style>.kmimg{max-width:100%;height:auto;}</style>
+</head>
+<body bgcolor="#ffffff"><div data-role="page"><div data-role="header"><a data-rel="back" data-icon="back">返回</a><h1></h1><a href="../../index.html" data-role="button" data-icon="home" rel="external">首页</a></div><div style="padding:5px 5px 5px 5px" data-role="content">
+<font size=3 color="#000000" face="Arial">
+<p>OpenStack &#23384;&#20648;&#25216;&#26415;</p>
+<p></p>
+<p>OpenStack &#26377;&#20004;&#20010;&#19982;&#23384;&#20648;&#30456;&#20851;&#30340;&#32452;&#20214;&#65292;&#39118;&#21035;&#26159;Swift(&#23545;&#35937;&#23384;&#20648;&#65289;&#21644;Cinder&#65288;&#22359;&#23384;&#20648;&#65289;</p>
+<p></p>
+<p>  Swift --&#25552;&#20379;&#23545;&#35937;&#23384;&#20648;&#65288;Object Storage&#65289;</p>
+<p>  </p>
+<p>  Cinder--&#25552;&#20379;&#22359;&#23384;&#20648;&#65288;Block Storage&#65289;</p>
+<p></p>
+<p></p>
+<p>3.2 Cinder&#31616;&#20171;</p>
+<p></p>
+<p>Cinder&#26159;OpenStack&#20013;&#25552;&#20379;&#22359;&#23384;&#20648;&#26381;&#21153;&#30340;API&#26694;&#26550;&#12290;&#23427;&#24182;&#27809;&#26377;&#23454;&#29616;&#23545;&#22359;&#35774;&#22791;&#30340;&#31649;&#29702;&#21644;&#23454;&#38469;&#26381;&#21153;&#65292;&#32780;&#26159;&#20026;&#21518;&#31471;&#19981;&#21516;&#30340;&#23384;&#20648;&#32467;&#26500;&#25552;&#20379;&#20102;&#32479;&#19968;&#30340;&#25509;&#21475;[2]&#65292;&#19981;&#21516;&#30340;&#22359;&#35774;&#22791;&#26381;&#21153;&#21378;&#21830;&#22312;Cinder&#20013;&#23454;&#29616;&#20854;&#39537;&#21160;&#25903;&#25345;&#20197;&#19982;OpenStack&#36827;&#34892;&#25972;&#21512;&#12290;&#21518;&#31471;&#30340;&#23384;&#20648;&#21487;&#20197;&#26159;DAS&#12289;NAS&#12289;SAN&#65292;&#23545;&#35937;&#23384;&#20648;&#25110;&#32773;&#20998;&#24067;&#24335;&#25991;&#20214;&#31995;&#32479;&#12290;Cinder&#30340;&#22359;&#23384;&#20648;&#25968;&#25454;&#23436;&#25972;&#24615;&#12289;&#21487;&#29992;&#24615;&#20445;&#38556;&#26159;&#30001;&#21518;&#31471;&#23384;&#20648;&#25552;&#20379;&#30340;&#12290;</p>
+<p></p>
+<p></p>
+<p>&#22359;&#23384;&#20648;&#65292;&#31616;&#21333;&#26469;&#35828;&#23601;&#26159;&#25552;&#20379;&#20102;&#22359;&#35774;&#22791;&#23384;&#20648;&#30340;&#25509;&#21475;&#12290;&#29992;&#25143;&#38656;&#35201;&#25226;&#22359;&#23384;&#20648;&#21367;&#38468;&#21152;&#21040;&#34394;&#25311;&#26426;(&#25110;&#32773;&#35064;&#26426;)&#19978;&#21518;&#25165;&#21487;&#20197;&#19982;&#20854;&#20132;&#20114;&#12290;&#36825;&#20123;&#21367;&#37117;&#26159;&#25345;&#20037;&#30340;: &#23427;&#20204;&#21487;&#20197;&#34987;&#20174;&#36816;&#34892;&#23454;&#20363;&#19978;&#35299;&#38500;&#25110;&#32773;&#37325;&#26032;&#38468;&#21152;&#32780;&#25968;&#25454;&#20445;&#25345;&#23436;&#25972;&#19981;&#21464;&#12290;</p>
+<p></p>
+<p>&#21333;&#26426;&#22359;&#23384;&#20648;</p>
+<p></p>
+<p>&#39318;&#20808;&#65292;&#19968;&#20010;&#30828;&#30424;&#26159;&#19968;&#20010;&#22359;&#35774;&#22791;&#12290;&#20869;&#26680;&#26816;&#27979;&#21040;&#30828;&#30424;&#21518;&#65292;&#22312;/dev/&#19979;&#20250;&#30475;&#21040;/dev/sda/&#12290;&#20026;&#20102;&#29992;&#19968;&#20010;&#30828;&#30424;&#26469;&#24471;&#21040;&#19981;&#21516;&#30340;&#20998;&#21306;&#26469;&#20570;&#19981;&#21516;&#30340;&#20107;&#65292;&#25105;&#20204;&#20351;&#29992;fdisk&#24037;&#20855;&#24471;&#21040;/dev/sda1&#12289;/dev/sda2&#31561;&#12290;&#36825;&#31181;&#26041;&#24335;&#36890;&#36807;&#30452;&#25509;&#20889;&#20837;&#20998;&#21306;&#34920;&#26469;&#35268;&#23450;&#21644;&#20999;&#20998;&#30828;&#30424;&#65292;&#26159;&#26368;&#27515;&#26495;&#30340;&#20998;&#21306;&#26041;&#24335;&#12290;</p>
+<p>1. LVM &amp; Device-mapper</p>
+<p></p>
+<p>LVM&#26159;&#19968;&#31181;&#36923;&#36753;&#21367;&#31649;&#29702;&#22120;&#12290;&#36890;&#36807;LVM&#26469;&#23545;&#30828;&#30424;&#21019;&#24314;&#36923;&#36753;&#21367;&#32452;&#21644;&#24471;&#21040;&#36923;&#36753;&#21367;&#65292;&#35201;&#27604;fdisk&#26041;&#24335;&#26356;&#21152;&#24377;&#24615;&#12290;&#22914;&#26524;&#20320;&#30446;&#21069;&#23545;LVM&#29992;&#36884;&#36824;&#19981;&#29087;&#24713;&#25110;&#32773;&#19981;&#22823;&#28165;&#26970;&#65292;&#21487;&#21442;&#32771;&#20197;&#19979;&#38142;&#25509;&#65306;</p>
+<p></p>
+<p>  &#36890;&#29992;&#32447;&#31243;&#65306;&#23398;&#20064; Linux LVM&#65292;&#31532; 1 &#37096;&#20998;</p>
+<p></p>
+<p>  &#36890;&#29992;&#32447;&#31243;&#65306;&#23398;&#20064; Linux LVM&#65292;&#31532; 2 &#37096;&#20998;</p>
+<p></p>
+<p>LVM&#22522;&#20110;Device-mapper&#29992;&#25143;&#31243;&#24207;&#23454;&#29616;&#12290;Device-mapper&#26159;&#19968;&#31181;&#25903;&#25345;&#36923;&#36753;&#21367;&#31649;&#29702;&#30340;&#36890;&#29992;&#35774;&#22791;&#26144;&#23556;&#26426;&#21046;&#65292;&#20026;&#23384;&#20648;&#36164;&#28304;&#31649;&#29702;&#30340;&#22359;&#35774;&#22791;&#39537;&#21160;&#25552;&#20379;&#20102;&#19968;&#20010;&#39640;&#24230;&#27169;&#22359;&#21270;&#30340;&#20869;&#26680;&#26550;&#26500;&#12290;&#20197;&#19979;&#38142;&#25509;&#23545;Device-mapper&#26550;&#26500;&#36827;&#34892;&#20102;&#26497;&#22909;&#30340;&#35828;&#26126;&#65306;</p>
+<p></p>
+<p>  Linux &#20869;&#26680;&#20013;&#30340; Device Mapper &#26426;&#21046;</p>
+<p></p>
+<p>2. SAN &amp; iSCSI</p>
+<p></p>
+<p>&#22312;&#25509;&#35302;&#20102;&#21333;&#26426;&#19979;&#30340;&#36923;&#36753;&#21367;&#31649;&#29702;&#21518;&#65292;&#20320;&#38656;&#35201;&#20102;&#35299;SAN&#65292;&#30446;&#21069;&#20027;&#27969;&#30340;&#20225;&#19994;&#32423;&#23384;&#20648;&#26041;&#24335;&#12290;</p>
+<p></p>
+<p>&#22823;&#37096;&#20998;SAN&#20351;&#29992;SCSI&#21327;&#35758;&#22312;&#26381;&#21153;&#22120;&#21644;&#23384;&#20648;&#35774;&#22791;&#20043;&#38388;&#20256;&#36755;&#21644;&#27807;&#36890;&#65292;&#36890;&#36807;&#22312;SCSI&#20043;&#19978;&#24314;&#31435;&#19981;&#21516;&#38236;&#20687;&#23618;&#65292;&#21487;&#20197;&#23454;&#29616;&#23384;&#20648;&#32593;&#32476;&#30340;&#36830;&#25509;&#12290;&#24120;&#35265;&#30340;&#26377;iSCSI&#65292;FCP&#65292;Fibre Channel over Ethernet&#31561;&#12290;</p>
+<p></p>
+<p>SAN&#36890;&#24120;&#38656;&#35201;&#22312;&#19987;&#29992;&#23384;&#20648;&#35774;&#22791;&#20013;&#24314;&#31435;&#65292;&#32780;iSCSI&#26159;&#22522;&#20110;TCP/IP&#30340;SCSI&#26144;&#23556;&#65292;&#36890;&#36807;iSCSI&#21327;&#35758;&#21644;Linux iSCSI&#39033;&#30446;&#65292;&#25105;&#20204;&#21487;&#20197;&#22312;&#24120;&#35265;&#30340;PC&#26426;&#19978;&#24314;&#31435;SAN&#23384;&#20648;&#12290;</p>
+<p></p>
+<p>&#23545;&#20110;&#22914;&#20309;&#24314;&#31435;&#22312;PC&#26426;&#19978;&#30340;SAN&#65292;&#21487;&#20197;&#21442;&#32771;&#65306;</p>
+<p></p>
+<p>iSCSI&#24314;&#31435;</p>
+<p></p>
+<p>&#19981;&#36807;&#65292;&#36825;&#31687;&#25991;&#31456;&#25552;&#21040;&#30340;iSCSI target&#31649;&#29702;&#26041;&#24335;&#19981;&#22826;&#26041;&#20415;&#65292;&#36890;&#24120;&#25105;&#20204;&#20250;&#29992;targetcli&#31649;&#29702;target&#12290;targetcli&#21487;&#20197;&#30452;&#25509;&#24314;&#31435;&#21644;&#31649;&#29702;&#19981;&#21516;backstone&#31867;&#22411;&#30340;&#36923;&#36753;&#21367;&#21644;&#19981;&#21516;&#30340;export&#26041;&#24335;&#65292;&#22914;&#24314;&#31435;ramdisk&#24182;&#19988;&#36890;&#36807;iSCSI export&#65292;&#38750;&#24120;&#26041;&#20415;&#12290;&#25805;&#20316;&#26041;&#24335;&#35265;targetcli screencast Part 2 of 3: ISCSI &#8211; YouTube&#12290;</p>
+<p></p>
+<p>&#20197;&#19978;&#37117;&#26159;&#25105;&#20204;&#32463;&#24120;&#25509;&#35302;&#30340;&#21333;&#26426;&#22359;&#23384;&#20648;&#12290;&#25509;&#19979;&#26469;&#26159;&#26412;&#25991;&#20027;&#35201;&#20998;&#20139;&#30340;&#20869;&#23481;&#65306;&#20844;&#20849;&#20113;&#25216;&#26415;&#26381;&#21153;&#25552;&#20379;&#30340;&#22359;&#23384;&#20648;&#26381;&#21153;&#65292;&#24320;&#28304;&#30340;&#22359;&#23384;&#20648;&#26694;&#26550;&#65292;&#20197;&#21450;OpenStack&#30446;&#21069;&#23545;&#22359;&#23384;&#20648;&#30340;&#23450;&#20041;&#21644;&#25903;&#25345;&#24773;&#20917;&#12290;</p>
+<p>&#20998;&#24067;&#24335;&#22359;&#23384;&#20648;</p>
+<p></p>
+<p>&#22312;&#38754;&#23545;&#26497;&#20855;&#24377;&#24615;&#30340;&#23384;&#20648;&#38656;&#27714;&#21644;&#24615;&#33021;&#35201;&#27714;&#19979;&#65292;&#21333;&#26426;&#25110;&#32773;&#29420;&#31435;&#30340;SAN&#36234;&#26469;&#36234;&#19981;&#33021;&#28385;&#36275;&#20225;&#19994;&#30340;&#38656;&#35201;&#12290;&#22914;&#21516;&#25968;&#25454;&#24211;&#31995;&#32479;&#19968;&#26679;&#65292;&#22359;&#23384;&#20648;&#22312;scale up&#30340;&#29942;&#39048;&#19979;&#20063;&#38754;&#20020;&#30528;scale out&#30340;&#38656;&#35201;&#12290;&#25105;&#20204;&#21487;&#20197;&#29992;&#20197;&#19979;&#20960;&#20010;&#29305;&#28857;&#26469;&#25551;&#36848;&#20998;&#24067;&#24335;&#22359;&#23384;&#20648;&#31995;&#32479;&#30340;&#27010;&#24565;&#65306;</p>
+<p></p>
+<p>  &#20998;&#24067;&#24335;&#22359;&#23384;&#20648;&#21487;&#20197;&#20026;&#20219;&#20309;&#29289;&#29702;&#26426;&#25110;&#32773;&#34394;&#25311;&#26426;&#25552;&#20379;&#25345;&#20037;&#21270;&#30340;&#22359;&#23384;&#20648;&#35774;&#22791;</p>
+<p></p>
+<p>  &#20998;&#24067;&#24335;&#22359;&#23384;&#20648;&#31995;&#32479;&#31649;&#29702;&#22359;&#35774;&#22791;&#30340;&#21019;&#24314;&#12289;&#21024;&#38500;&#21644;attach/detach</p>
+<p></p>
+<p>  &#20998;&#24067;&#24335;&#22359;&#23384;&#20648;&#25903;&#25345;&#24378;&#22823;&#30340;&#24555;&#29031;&#21151;&#33021;&#65292;&#24555;&#29031;&#21487;&#20197;&#29992;&#26469;&#24674;&#22797;&#25110;&#32773;&#21019;&#24314;&#26032;&#30340;&#22359;&#35774;&#22791;</p>
+<p></p>
+<p>  &#20998;&#24067;&#24335;&#23384;&#20648;&#31995;&#32479;&#33021;&#22815;&#25552;&#20379;&#19981;&#21516;IO&#24615;&#33021;&#35201;&#27714;&#30340;&#22359;&#35774;&#22791;</p>
+<p></p>
+<p></p>
+<p>&#20108;&#26159;&#22359;&#35774;&#22791;&#23384;&#20648;&#26381;&#21153;&#65292;&#22312;OpenStack&#37324;&#20027;&#35201;&#26159;&#25552;&#20379;&#32473;&#34394;&#25311;&#26426;&#30340;&#20316;&#20026;&#8220;&#30828;&#30424;&#8221;&#30340;&#23384;&#20648;&#65292;&#36825;&#37324;&#21448;&#20998;&#20026;&#26412;&#22320;&#22359;&#23384;&#20648;&#21644;&#20998;&#24067;&#24335;&#22359;&#23384;&#20648;&#65292;</p>
+<p></p>
+<p>Description </p>
+<p>Provide cinder-volumes to compute instances </p>
+<p></p>
+<p>Nova-volume is a service that allows you to give extra block level storage to your OpenStack Compute instances (using iSCSI and LVM) </p>
+<p></p>
+<p>Setup </p>
+<p>Start the SCSI target daemon </p>
+<p></p>
+<p>$&gt; sudo systemctl start tgtd.service</p>
+<p>$&gt; sudo systemctl enable tgtd.service </p>
+<p>How to test </p>
+<p>Create a new 5GB volume </p>
+<p></p>
+<p>$&gt; cinder create --display_name vol-00000001 5</p>
+<p>View status of volumes, and wait for it to become 'available' </p>
+<p></p>
+<p>$&gt; cinder list </p>
+<p>+--------------------------------------+----------+--------------+------+-------------+-------------+</p>
+<p>|         ID         | Status | Display Name | Size | Volume Type | Attached to |</p>
+<p>+--------------------------------------+----------+--------------+------+-------------+-------------+</p>
+<p>| aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee | creating | vol-00000001 | 5  |   None  |       |</p>
+<p>+--------------------------------------+----------+--------------+------+-------------+-------------+</p>
+<p></p>
+<p></p>
+<p>Make the storage available to the instance </p>
+<p></p>
+<p>$&gt; nova volume-attach testvm aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee /dev/vdc</p>
+<p></p>
+<p>ssh to the instance and verify that the vdc device is listed in /proc/partitions </p>
+<p></p>
+<p>$&gt; cat /proc/partitions</p>
+<p>Now make the device available if /dev/vdc is not already present </p>
+<p></p>
+<p>$&gt; mknod /dev/vdc b 252 32</p>
+<p>Create and mount a file system directly on the device </p>
+<p></p>
+<p>$&gt; mkfs.ext3 /dev/vdc</p>
+<p>$&gt; mkdir /mnt/nova-volume</p>
+<p>$&gt; mount /dev/vdc /mnt/nova-volume</p>
+<p>Display some file system details </p>
+<p></p>
+<p>$&gt; df -h /dev/vdc</p>
+<p>Unmount the volume again: </p>
+<p></p>
+<p>$&gt; umount /mnt/nova-volume</p>
+<p>Exit from the ssh session, detach and delete the volume: </p>
+<p></p>
+<p>$&gt; nova volume-detach testvm aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee</p>
+<p>$&gt; cinder delete vol-00000001</p>
+<p></p>
+<p>Expected Results </p>
+<p>The file system should be created, mounted and reported correctly by df. </p>
+<p></p>
+<p>There should be no new errors in the logs: </p>
+<p></p>
+<p>$&gt; grep -i error /var/log/cinder/*.log</p>
+<p>Retrieved from "https://fedoraproject.org/w/index.php?title=QA:Testcase_attach_a_cinder_volume_to_an_instance&amp;oldid=303356"</p>
+<p></p>
+<p></p>
+<p><b>Object storage</b></p>
+<p>In OpenStack: Object Storage service (Swift)</p>
+<p>Related concepts: Amazon S3, Rackspace Cloud Files, Ceph Storage</p>
+<p>With object storage, files are exposed through an HTTP interface, typically with a REST API. All client data access is done at the user level: the operating system is unaware of the presence of the remote storage system. In OpenStack, the Object Storage service provides this type of functionality. Users access and modify files by making HTTP requests. Because the data access interface provided by an object storage system is at a low level of abstraction, people often build on top of object storage to build file-based applications that provide a higher level of abstraction. For example, the OpenStack Image service can be configured to use the Object Storage service as a backend. Another use for object storage solutions is as a content delivery network (CDN) for hosting static web content (e.g., images, and media files), since object storage already provides an HTTP interface.</p>
+<p></p>
+<p><b>Block storage (SAN)</b></p>
+<p>In OpenStack: Block Storage service (Cinder)</p>
+<p>Related concepts: Amazon Elastic Block Store (EBS), Ceph RADOS Block Device (RBD), iSCSI</p>
+<p>With block storage, files are exposed through a low-level computer bus interface such as SCSI or ATA, that is accessible over the network. Block storage is synonymous with SAN (storage area network). Clients access data through the operating system at the device level: users access the data by mounting the remote device in a similar manner to how they would mount a local, physical disk (e.g., using the "mount" command in Linux). In OpenStack, the cinder-volume service that forms part of the Compute service provides this type of functionality, and uses iSCSI to expose remote data as a SCSI disk that is attached to the network.</p>
+<p>Because the data is exposed as a physical device, the end-user is responsible for creating partitions and formatting the exposed disk device. In addition, in OpenStack Compute a device can only be attached to one server at a time, so block storage cannot be used to share data across virtual machine instances concurrently.</p>
+<p></p>
+<p><b>File storage (NAS)</b></p>
+<p>In OpenStack: none</p>
+<p>Related concepts: NFS, Samba/CIFS, GlusterFS, Dropbox, Google Drive</p>
+<p>With file storage, files are exposed through a distributed file system protocol. Filesystem storage is synonymous with NAS (network attached storage). Clients access data through the operating system at the file system level: users access the data by mounting a remote file system. Examples of file storage include NFS and GlusterFS. The operating system needs to have the appropriate client software installed to be able to access the remote file system.</p>
+<p>Currently, OpenStack Compute does not have any native support for this type of file storage inside of an instance. However, there is a Gluster storage connector for OpenStack that enables the use of the GlusterFS file system as a back-end for the Image service.</p>
+<p></p>
+</font>
+<div data-role="controlgroup" data-type="horizontal" style="float:right; padding-right:25px"><a href="../../index.html" rel="external" data-role="button" data-icon="home">目录</a><a href="../003/000.html" rel="external" data-role="button">上一篇</a><a href="../../index.html" rel="external" data-role="button">下一篇</a></div><div style="clear:both"></div></div><div data-role="footer"><h1><a href="http://www.kmapk.com" rel="external">版权所有 @ KM盒子</a></h1></div></div></body></html>

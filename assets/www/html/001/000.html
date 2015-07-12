@@ -1,0 +1,68 @@
+<!doctype html><html><head><title>Python 基础</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="../css/mobile.css" rel="stylesheet" />
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/mobile.js"></script>
+<script type="text/javascript" src="../js/lightbox.js"></script>
+<link rel="stylesheet" href="../css/lightbox.css" type="text/css">
+<style>.kmimg{max-width:100%;height:auto;}</style>
+</head>
+<body bgcolor="#ffffff"><div data-role="page"><div data-role="header"><a data-rel="back" data-icon="back">返回</a><h1></h1><a href="../../index.html" data-role="button" data-icon="home" rel="external">首页</a></div><div style="padding:5px 5px 5px 5px" data-role="content">
+<font size=3 color="#000000" face="Arial">
+<p></p>
+<p></p>
+<p>A module is a file containing Python definitions and statements. The file name is the module name with the suffix .py appended. Within a module, the module&#8217;s name (as a string) is available as the value of the global variable __name__. For instance, use your favorite text editor to create a file called fibo.py in the current directory with the following contents:</p>
+<p></p>
+<p>Python &#20013;</p>
+<p>https://docs.python.org/3/tutorial/modules.html</p>
+<p></p>
+<p>&#39318;&#20808;&#35828;&#27169;&#22359;&#65306;&#27169;&#22359;&#22522;&#26412;&#19978;&#23601;&#26159;&#19968;&#20010;&#21253;&#21547;&#20102;&#25152;&#26377;&#20320;&#23450;&#20041;&#30340;&#20989;&#25968;&#21644;&#21464;&#37327;&#30340;&#25991;&#20214;&#12290;&#20026;&#20102;&#22312;&#20854;&#20182;&#31243;&#24207;&#20013;&#37325;&#29992;&#27169;&#22359;&#65292;&#27169;&#22359;&#30340;&#25991;&#20214;&#21517;&#24517;&#39035;&#20197;.py&#20026;&#25193;&#23637;&#21517;&#12290;&#25105;&#20204;&#21033;&#29992;import&#35821;&#21477; &#36755;&#20837;&#38656;&#35201;&#20351;&#29992;&#30340;&#27169;&#22359;&#12290;</p>
+<p>  &#27599;&#20010;&#27169;&#22359;&#37117;&#26377;&#19968;&#20010;&#20869;&#32622;&#30340;&#21464;&#37327;__name__&#12290;&#22312;&#27169;&#22359;&#33258;&#24049;&#36816;&#34892;&#30340;&#26102;&#20505;&#65292;&#35813;__name__&#23601;&#31561;&#20110;'main'&#65292;&#32780;&#22914;&#26524;&#34987;&#20854;&#20182;&#30340;&#27169;&#22359;import&#65292;&#21017;&#35813;&#27169;&#22359;&#30340;__name__&#23601;&#31561;&#20110;&#27169;&#22359;&#21517;&#65292;&#20063;&#23601;&#26159;&#25991;&#20214;&#21517;&#21435;&#25481;py&#25193;&#23637;&#21517;&#30340;&#37096;&#20998;&#12290;</p>
+<p></p>
+<p></p>
+<p></p>
+<p>&#20174;nova-api&#30340;&#21551;&#21160;&#20989;&#25968;</p>
+<p><font size=2 color="#00aa00" face="Monospace"><i>"""Starter script for </i></font><font size=2 color="#00aa00" face="Monospace"><i><u>Nova</u></i></font><font size=2 color="#00aa00" face="Monospace"><i> API.</i></font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 color="#00aa00" face="Monospace"><i>Starts both the EC2 and OpenStack APIs in separate </i></font><font size=2 color="#00aa00" face="Monospace"><i><u>greenthreads</u></i></font><font size=2 color="#00aa00" face="Monospace"><i>.</i></font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 color="#00aa00" face="Monospace"><i>"""</i></font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 color="#0000ff" face="Monospace">import</font><font size=2 color="#000000" face="Monospace"> sys</font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 color="#0000ff" face="Monospace">from</font><font size=2 color="#000000" face="Monospace"> oslo_config </font><font size=2 color="#0000ff" face="Monospace">import</font><font size=2 color="#000000" face="Monospace"> cfg</font></p>
+<p><font size=2 color="#0000ff" face="Monospace">from</font><font size=2 color="#000000" face="Monospace"> oslo_log </font><font size=2 color="#0000ff" face="Monospace">import</font><font size=2 color="#000000" face="Monospace"> </font><font size=2 color="#000000" face="Monospace"><u>log </u></font><font size=2 color="#0000ff" face="Monospace"><u>as</u></font><font size=2 color="#000000" face="Monospace"><u> logging</u></font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 color="#0000ff" face="Monospace">from</font><font size=2 color="#000000" face="Monospace"> nova </font><font size=2 color="#0000ff" face="Monospace">import</font><font size=2 color="#000000" face="Monospace"> config</font></p>
+<p><font size=2 color="#0000ff" face="Monospace">from</font><font size=2 color="#000000" face="Monospace"> nova </font><font size=2 color="#0000ff" face="Monospace">import</font><font size=2 color="#000000" face="Monospace"> objects</font></p>
+<p><font size=2 color="#0000ff" face="Monospace">from</font><font size=2 color="#000000" face="Monospace"> nova.openstack.common.report </font><font size=2 color="#0000ff" face="Monospace">import</font><font size=2 color="#000000" face="Monospace"> guru_meditation_report </font><font size=2 color="#0000ff" face="Monospace">as</font><font size=2 color="#000000" face="Monospace"> gmr</font></p>
+<p><font size=2 color="#0000ff" face="Monospace">from</font><font size=2 color="#000000" face="Monospace"> nova </font><font size=2 color="#0000ff" face="Monospace">import</font><font size=2 color="#000000" face="Monospace"> service</font></p>
+<p><font size=2 color="#0000ff" face="Monospace">from</font><font size=2 color="#000000" face="Monospace"> nova </font><font size=2 color="#0000ff" face="Monospace">import</font><font size=2 color="#000000" face="Monospace"> utils</font></p>
+<p><font size=2 color="#0000ff" face="Monospace">from</font><font size=2 color="#000000" face="Monospace"> nova </font><font size=2 color="#0000ff" face="Monospace">import</font><font size=2 color="#000000" face="Monospace"> version</font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 color="#000000" face="Monospace">CONF = cfg.CONF</font></p>
+<p><font size=2 color="#000000" face="Monospace">CONF.import_opt(</font><font size=2 color="#00aa00" face="Monospace"><i>'enabled_apis'</i></font><font size=2 color="#000000" face="Monospace">, </font><font size=2 color="#00aa00" face="Monospace"><i>'nova.service'</i></font><font size=2 color="#000000" face="Monospace">)</font></p>
+<p><font size=2 color="#000000" face="Monospace">CONF.import_opt(</font><font size=2 color="#00aa00" face="Monospace"><i>'enabled_ssl_apis'</i></font><font size=2 color="#000000" face="Monospace">, </font><font size=2 color="#00aa00" face="Monospace"><i>'nova.service'</i></font><font size=2 color="#000000" face="Monospace">)</font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 color="#0000ff" face="Monospace">def</font><font size=2 color="#000000" face="Monospace"> </font><font size=2 color="#000000" face="Monospace"><b>main</b></font><font size=2 color="#000000" face="Monospace">():</font></p>
+<p><font size=2 color="#000000" face="Monospace">  config.parse_args(sys.argv)</font></p>
+<p><font size=2 color="#000000" face="Monospace">  logging.setup(CONF, </font><font size=2 color="#00aa00" face="Monospace"><i>"</i></font><font size=2 color="#00aa00" face="Monospace"><i><u>nova</u></i></font><font size=2 color="#00aa00" face="Monospace"><i>"</i></font><font size=2 color="#000000" face="Monospace">)</font></p>
+<p><font size=2 color="#000000" face="Monospace">  utils.monkey_patch()</font></p>
+<p><font size=2 color="#000000" face="Monospace">  objects.register_all()</font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 color="#000000" face="Monospace">  gmr.TextGuruMeditation.setup_autorun(version)</font></p>
+<p><font size=2 face="Monospace"></font></p>
+<p><font size=2 color="#000000" face="Monospace">  launcher = service.process_launcher()</font></p>
+<p><font size=2 color="#000000" face="Monospace">  </font><font size=2 color="#0000ff" face="Monospace">for</font><font size=2 color="#000000" face="Monospace"> api </font><font size=2 color="#0000ff" face="Monospace">in</font><font size=2 color="#000000" face="Monospace"> CONF.enabled_apis:</font></p>
+<p><font size=2 color="#000000" face="Monospace">    should_use_ssl = api </font><font size=2 color="#0000ff" face="Monospace">in</font><font size=2 color="#000000" face="Monospace"> CONF.enabled_ssl_apis</font></p>
+<p><font size=2 color="#000000" face="Monospace">    </font><font size=2 color="#0000ff" face="Monospace">if</font><font size=2 color="#000000" face="Monospace"> api == </font><font size=2 color="#00aa00" face="Monospace"><i>'ec2'</i></font><font size=2 color="#000000" face="Monospace">:</font></p>
+<p><font size=2 color="#000000" face="Monospace">      server = service.WSGIService(api, use_ssl=should_use_ssl,</font></p>
+<p><font size=2 color="#000000" face="Monospace">                     max_url_len=</font><font size=2 color="#800000" face="Monospace">16384</font><font size=2 color="#000000" face="Monospace">)</font></p>
+<p><font size=2 color="#000000" face="Monospace">    </font><font size=2 color="#0000ff" face="Monospace">else</font><font size=2 color="#000000" face="Monospace">:</font></p>
+<p><font size=2 color="#000000" face="Monospace">      server = service.WSGIService(api, use_ssl=should_use_ssl)</font></p>
+<p><font size=2 color="#000000" face="Monospace">    launcher.launch_service(server, workers=server.workers </font><font size=2 color="#0000ff" face="Monospace">or</font><font size=2 color="#000000" face="Monospace"> </font><font size=2 color="#800000" face="Monospace">1</font><font size=2 color="#000000" face="Monospace">)</font></p>
+<p><font size=2 color="#000000" face="Monospace">  launcher.wait()</font></p>
+</font>
+<div data-role="controlgroup" data-type="horizontal" style="float:right; padding-right:25px"><a href="../../index.html" rel="external" data-role="button" data-icon="home">目录</a><a href="../../index.html" rel="external" data-role="button">上一篇</a><a href="../002/000.html" rel="external" data-role="button">下一篇</a></div><div style="clear:both"></div></div><div data-role="footer"><h1><a href="http://www.kmapk.com" rel="external">版权所有 @ KM盒子</a></h1></div></div></body></html>

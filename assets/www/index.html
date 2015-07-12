@@ -1,0 +1,97 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>自定义模版标签例子</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link href="html/css/mobile.css" rel="stylesheet" />
+<script type="text/javascript" src="html/js/jquery.js"></script>
+<script type="text/javascript" src="html/js/mobile.js"></script>
+<link rel="stylesheet" href="html/swiper/idangerous.swiper.css">
+<link rel="stylesheet" href="html/css/v2_style.css">
+<script>
+function IsPC(){  
+   var userAgentInfo = navigator.userAgent;  
+   var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPod");  
+   var flag = true;  
+   for (var v = 0; v < Agents.length; v++) {  
+	   if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }  
+   }  
+   return flag;}
+var jumpPc = IsPC();
+if(jumpPc!=false){document.write('<style>.container{width:320px;}</style>');}
+</script>
+</head>
+<body>
+<!--滑动封面页开始-->
+<div id="slider" class="swiper-container container" data-role="page">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide section1"></div>
+    <div class="swiper-slide section2"></div>
+    <div class="swiper-slide section3"></div>
+    <div class="swiper-slide section4"></div>
+    <div class="swiper-slide section5">
+      <div class="bnts"> <a href="#page1" class="btn btn-red">进入阅读</a> <a href="javascript:;" class="btn btn-blue" onClick="show('pop')">点我分享</a> </div>
+    </div>
+  </div>
+  <div class="pagination"></div>
+</div>
+<!--弹窗-->
+<div id="pop" class="pop">
+  <div class="pop-m">
+    <div class="clearfix"><a href="javascript:;" onClick="hide('pop')"><img src="html/img/pop.png" class="fr"></a></div>
+    <h3>点此处分享</h3>
+    <p>点击右上角<br>
+      你可以选择告诉好友<br>
+      或在朋友圈里晒一下~</p>
+  </div>
+</div>
+<script type="text/javascript" src="html/js/jquery.js"></script> 
+<script src="html/swiper/idangerous.swiper.min.js" charset="utf-8"></script> 
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.container').fadeIn();
+    var mySwiper = new Swiper('.container', {
+        paginationClickable: true,
+		pagination : '.pagination',
+        slideActiveClass: 'active'
+    });});
+function show(s1){document.getElementById(s1).style.display="block";}
+function hide(s1){document.getElementById(s1).style.display="none";}
+</script>
+<!--滑动封面页结束-->
+<div data-role="page" id="page1"><div data-role="header" data-theme="a">
+    <h1>书刊名称-作者</h1></div>
+    <div id="banner"></div>
+    <div data-role="content"><div data-role="collapsible-set" data-content-theme="c">
+        <div data-role="collapsible" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-collapsed="false">
+            <h2>跟着Openstack学习Python</h2>
+            <ul data-role="listview" style="margin:-10px -16px">
+                <li><a href=html\001\000.html rel="external">Python 基础</a></li>
+            </ul>
+        </div>
+        <div data-role="collapsible" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d">
+            <h2>跟着Openstack学习网络</h2>
+            <ul data-role="listview" style="margin:-10px -16px">
+                <li><a href=html\002\000.html rel="external">TUN/TAB概念</a></li>
+                <li><a href=html\002\001.html rel="external">TUN/TAB代码分析</a></li>
+            </ul>
+        </div>
+        <div data-role="collapsible" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d">
+            <h2>跟着Openstack学习存储技术</h2>
+            <ul data-role="listview" style="margin:-10px -16px">
+                <li><a href=html\003\000.html rel="external">存储基础</a></li>
+                <li><a href=html\003\001.html rel="external">Openstack中的存储</a></li>
+            </ul>
+        </div>
+    </div>
+  <div data-role="panel" id="pl01">
+    <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="请输入关键字查找...">
+      {list}
+      <li><a href="{liurl}" rel="external">{lit}</a></li>
+      {/list}
+    </ul>
+  </div>
+</div>
+</body>
+</html>
